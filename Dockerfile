@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 #7. 서버 실행
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
