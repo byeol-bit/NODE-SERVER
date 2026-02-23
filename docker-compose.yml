@@ -1,14 +1,11 @@
 services:
-  app:
-    build: .
-    container_name: node_app
+  backend:
+    image: byeolbit0502/node-server:latest
+    container_name: node-server
     ports:
       - "3000:3000"
     env_file:
       - .env
-    depends_on:
-      db:
-        condition: service_healthy
     restart: always
 
   db:
@@ -18,17 +15,9 @@ services:
       MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-    ports:
-      - "3307:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
     restart: always
-    healthcheck:
-      test: ["CMD-SHELL", "mariadb -S /run/mysqld/mysqld.sock -u root -p\"$$MYSQL_ROOT_PASSWORD\" -e \"SELECT 1\" || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 40s
 
 volumes:
   mariadb_data:
